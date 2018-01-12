@@ -14,13 +14,13 @@ class Builder
   def build(repo)
     slack "[#{repo}] Build started!"
     log "Start #{repo} ...".green
-    repo = "git@github.com:#{repo}.git"
+    full_repo = "git@github.com:#{repo}.git"
     start_time = Time.now
 
     tmp = Dir.mktmpdir(PREFIX, @dir)
 
     log "Cloning #{repo} into #{tmp} ...".green
-    Run.cmd("git clone --depth=1 #{repo} #{tmp}")
+    Run.cmd("git clone --depth=1 #{full_repo} #{tmp}")
 
     read_config(tmp).each do |build|
       log "Starting build #{build} ...".green
@@ -37,14 +37,14 @@ class Builder
         Run.cmd("docker tag #{uuid} #{push_repo}")
         Run.cmd("docker push #{push_repo}")
       end
-
-      total_time = Time.now - start_time
-
-      log "Finished #{repo} in #{total_time}s"
-      slack "[#{repo}] Build finished!"
     rescue Exception => e
       error(e)
     end
+
+    total_time = Time.now - start_time
+
+    log "Finished #{repo} in #{total_time}s"
+    slack "[#{repo}] Build finished in #{total_time}s!"
   rescue Exception => e
     error(e)
   ensure
