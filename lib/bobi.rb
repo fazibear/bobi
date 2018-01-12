@@ -23,6 +23,7 @@ POOL = Concurrent::ThreadPoolExecutor.new(
 BUILDER = Builder.new()
 
 QUEUE = proc do |repo|
+  LOGGER.info("Adding #{repo} to queue ...")
   POOL.post do
     BUILDER.build(repo)
   rescue => e
