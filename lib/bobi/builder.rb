@@ -7,7 +7,6 @@ class Builder
   def initialize(dir)
     FileUtils.mkdir_p(dir)
     @dir = dir
-    @status = :new
   end
 
   def build(repo)
@@ -39,10 +38,11 @@ class Builder
       total_time = Time.now - start_time
 
       log "Finished #{repo} in #{total_time}s"
+    rescue Exception => e
+      handle_error(e)
     end
   rescue Exception => e
-    LOGGER.error(e)
-    @status = :faled
+    handle_error(e)
   ensure
     FileUtils.remove_entry(tmp) if Dir.exist?(tmp)
   end
@@ -64,5 +64,9 @@ class Builder
 
   def log(line)
     LOGGER.info(line)
+  end
+
+  def handle_error(e)
+    LOGGER.error(e)
   end
 end
