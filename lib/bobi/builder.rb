@@ -41,7 +41,7 @@ class Builder
       error(e)
     end
 
-    total_time = ChronicDuration.output(Time.now = start_time, :format => :long)
+    total_time = ChronicDuration.output(Time.now - start_time, :format => :short)
 
     log "Finished #{repo} in #{total_time}s"
     slack "[#{repo}] Build finished in #{total_time}s!"
