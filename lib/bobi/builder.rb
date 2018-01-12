@@ -24,7 +24,7 @@ class Builder
 
     config = read_config(tmp)
 
-    log(config.inspect.purple)
+    log(config.inspect.magenta)
 
     config.each do |build|
       log "Starting build #{build} ...".green
