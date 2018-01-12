@@ -3,13 +3,16 @@ class Builder
   LOG = "logs"
   PREFIX = "bobi-"
   CONFIG_FILE = ".bobi.yml"
+  WORK_DIR = ENV['BOBI_WORKING_DIR'] || "/tmp/bobi"
+  SLACK_HOOK = ENV['BOBI_SLACK_HOOK']
 
   def initialize()
-    @dir = ENV['BOBI_WORKING_DIR'] || "/tmp/bobi"
+    @dir = WORK_DIR
     FileUtils.mkdir_p(@dir)
   end
 
   def build(repo)
+    slack "[#{repo}] Build started!"
     log "Start #{repo} ...".green
     repo = "git@github.com:#{repo}.git"
     start_time = Time.now
@@ -38,6 +41,7 @@ class Builder
       total_time = Time.now - start_time
 
       log "Finished #{repo} in #{total_time}s"
+      slack "[#{repo}] Build finished!"
     rescue Exception => e
       error(e)
     end
@@ -68,5 +72,13 @@ class Builder
 
   def error(e)
     LOGGER.error(e.to_s.red)
+  end
+
+  def slack(txt)
+    POOL.post do
+      if SLACK_HOOK
+        Net::HTTP.post_form(URI.parse(SLACK_HOOK), {'payload' => "{\"text\": \"#{txt}\"}"})
+      end
+    end
   end
 end
