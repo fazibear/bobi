@@ -5,8 +5,8 @@ class Builder
   CONFIG_FILE = ".bobi.yml"
 
   def initialize(dir)
-    FileUtils.mkdir_p(dir)
-    @dir = dir
+    @dir = ENV['BOBI_WORKING_DIR'] || "/tmp/bobi"
+    FileUtils.mkdir_p(@dir)
   end
 
   def build(repo)
@@ -39,10 +39,10 @@ class Builder
 
       log "Finished #{repo} in #{total_time}s"
     rescue Exception => e
-      handle_error(e)
+      error(e)
     end
   rescue Exception => e
-    handle_error(e)
+    error(e)
   ensure
     FileUtils.remove_entry(tmp) if Dir.exist?(tmp)
   end
@@ -66,7 +66,7 @@ class Builder
     LOGGER.info(line)
   end
 
-  def handle_error(e)
-    LOGGER.error(e)
+  def error(e)
+    LOGGER.error(e.to_s.red)
   end
 end
