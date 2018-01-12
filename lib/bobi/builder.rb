@@ -27,15 +27,18 @@ class Builder
 
       uuid = SecureRandom.uuid
       build_dir = "#{tmp}/#{build["path"]}"
-      push_to = build["push_to"]
 
       log "Building from #{build_dir} ...".green
       Run.cmd("docker build -t #{uuid} #{build_dir}")
 
-      Array(push_to).each do |push_repo|
+      Array(build["push_to"]).each do |push_repo|
         log "Pushing to #{push_repo} ...".green
         Run.cmd("docker tag #{uuid} #{push_repo}")
         Run.cmd("docker push #{push_repo}")
+      end
+
+      Array(build["trigger"]).each do |trigger|
+        QUEUE.(trigger)
       end
     rescue Exception => e
       error(e)

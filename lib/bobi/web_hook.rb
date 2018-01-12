@@ -20,15 +20,7 @@ class WebHook < Roda
 
     repo = params["repository"]["full_name"]
     if r.params["ref"] == "refs/heads/master"
-      queue(repo)
-    end
-  end
-
-  def queue(repo)
-    POOL.post do
-      BUILDER.build(repo)
-    rescue => e
-      LOGGER.error(e)
+      QUEUE.(repo)
     end
   end
 end

@@ -21,3 +21,11 @@ POOL = Concurrent::ThreadPoolExecutor.new(
 )
 
 BUILDER = Builder.new()
+
+QUEUE = proc do |repo|
+  POOL.post do
+    BUILDER.build(repo)
+  rescue => e
+    LOGGER.error(e)
+  end
+end
