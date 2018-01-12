@@ -1,0 +1,22 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    colorize (0.8.1)
+    concurrent-ruby (1.0.5)
+    concurrent-ruby-ext (1.0.5)
+      concurrent-ruby (= 1.0.5)
+    puma (3.11.0)
+    rack (2.0.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  colorize
+  concurrent-ruby
+  concurrent-ruby-ext
+  puma
+  rack
+
+BUNDLED WITH
+   1.16.0
