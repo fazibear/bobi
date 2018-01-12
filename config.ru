@@ -1,3 +1,3 @@
 require_relative "lib/bobi"
 
-run WebHook.new
+run WebHook.freeze.app

@@ -4,7 +4,7 @@ class Builder
   PREFIX = "bobi-"
   CONFIG_FILE = ".bobi.yml"
 
-  def initialize(dir)
+  def initialize()
     @dir = ENV['BOBI_WORKING_DIR'] || "/tmp/bobi"
     FileUtils.mkdir_p(@dir)
   end
