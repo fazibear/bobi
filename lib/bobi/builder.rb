@@ -22,7 +22,11 @@ class Builder
     log "Cloning #{repo} into #{tmp} ...".green
     Run.cmd("git clone --depth=1 #{full_repo} #{tmp}")
 
-    read_config(tmp).each do |build|
+    config = read_config(tmp)
+
+    LOG.info(config)
+
+    config.each do |build|
       log "Starting build #{build} ...".green
 
       uuid = SecureRandom.uuid
