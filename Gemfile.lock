@@ -1,10 +1,13 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    chronic_duration (0.10.6)
+      numerizer (~> 0.1.1)
     colorize (0.8.1)
     concurrent-ruby (1.0.5)
     concurrent-ruby-ext (1.0.5)
       concurrent-ruby (= 1.0.5)
+    numerizer (0.1.1)
     puma (3.11.0)
     rack (2.0.3)
     roda (3.3.0)
@@ -14,6 +17,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  chronic_duration
   colorize
   concurrent-ruby
   concurrent-ruby-ext
