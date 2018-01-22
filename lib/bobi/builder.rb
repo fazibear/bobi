@@ -39,6 +39,7 @@ class Builder
         log "Pushing to #{push_repo} ...".green
         Run.cmd("docker tag #{uuid} #{push_repo}")
         Run.cmd("docker push #{push_repo}")
+        slack "[#{repo}] #{push_repo} pushed!"
       end
 
       Run.cmd("docker rmi #{uuid}")
