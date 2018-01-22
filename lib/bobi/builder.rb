@@ -29,7 +29,7 @@ class Builder
     config.each do |build|
       log "Starting build #{build} ...".green
 
-      uuid = SecureRandom.uuid
+      uuid = "build-#{SecureRandom.uuid}"
       build_dir = "#{tmp}/#{build["path"]}"
 
       log "Building from #{build_dir} ...".green
