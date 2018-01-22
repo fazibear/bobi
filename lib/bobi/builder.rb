@@ -43,6 +43,7 @@ class Builder
       end
 
       Run.cmd("docker rmi #{uuid}")
+      Run.cmd("docker rmi #{push_repo}")
 
       Array(build["trigger"]).each do |trigger|
         QUEUE.(trigger)
