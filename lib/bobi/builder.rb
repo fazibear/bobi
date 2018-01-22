@@ -55,6 +55,7 @@ class Builder
     log "Finished #{repo} in #{total_time}"
     slack "[#{repo}] Build finished in #{total_time}!"
   rescue Exception => e
+    slack "[#{repo}] Build error: #{e}!"
     error(e)
   ensure
     FileUtils.remove_entry(tmp) if Dir.exist?(tmp)
