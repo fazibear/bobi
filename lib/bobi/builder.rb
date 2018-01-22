@@ -39,6 +39,7 @@ class Builder
         log "Pushing to #{push_repo} ...".green
         Run.cmd("docker tag #{uuid} #{push_repo}")
         Run.cmd("docker push #{push_repo}")
+        Run.cmd("docker rmi #{uuid}")
       end
 
       Array(build["trigger"]).each do |trigger|
