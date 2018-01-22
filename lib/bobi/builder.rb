@@ -48,6 +48,7 @@ class Builder
         QUEUE.(trigger)
       end
     rescue Exception => e
+      slack "[#{repo}] Build error: #{e}!"
       error(e)
     end
 
