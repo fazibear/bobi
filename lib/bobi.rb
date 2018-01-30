@@ -15,9 +15,9 @@ LOGGER = Logger.new(ENV['BOBI_LOG'] || STDOUT)
 #LOGGER.level = Logger::INFO
 
 POOL = Concurrent::ThreadPoolExecutor.new(
-   min_threads: 5,
-   max_threads: 5,
-   max_queue: 100,
+   min_threads: 1,
+   max_threads: 1,
+   max_queue: 1000,
 )
 
 BUILDER = Builder.new()
