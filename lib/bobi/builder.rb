@@ -12,7 +12,7 @@ class Builder
   end
 
   def build(repo)
-    slack "[#{repo}] Build started!", '#ff0000'
+    slack "[#{repo}] Build started!", '#0000ff'
     log "Start #{repo} ...".green
     full_repo = "git@github.com:#{repo}.git"
     start_time = Time.now
