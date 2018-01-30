@@ -89,7 +89,7 @@ class Builder
   end
 
   def slack(text, color = '#000000')
-    POOL.post do
+    Thread.new do
       if SLACK_HOOK
         payload = {
           username: "bobi",
