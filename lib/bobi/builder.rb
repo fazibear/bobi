@@ -12,7 +12,7 @@ class Builder
   end
 
   def build(repo)
-    slack "[#{repo}] Build started!", '#0000ff'
+    slack "*#{repo}* Build started!", '#0000ff'
     log "Start #{repo} ...".green
     full_repo = "git@github.com:#{repo}.git"
     start_time = Time.now
@@ -41,7 +41,7 @@ class Builder
         log "Pushing to #{push_repo} ...".green
         Run.cmd("docker tag #{uuid} #{push_repo}")
         Run.cmd("docker push #{push_repo}")
-        slack "[#{repo}] #{push_repo} pushed!", '#ffff00'
+        slack "*#{repo}* #{push_repo} pushed!", '#ffff00'
       end
 
       Run.cmd("docker rmi #{uuid}")
@@ -50,16 +50,16 @@ class Builder
         QUEUE.(trigger)
       end
     rescue Exception => e
-      slack "[#{repo}] Build error: #{e}!", '#ff0000'
+      slack "*#{repo}* Build error: #{e}!", '#ff0000'
       error(e)
     end
 
     total_time = ChronicDuration.output(Time.now - start_time, :format => :long)
 
     log "Finished #{repo} in #{total_time}"
-    slack "[#{repo}] Build finished in #{total_time}!", '#36a64f'
+    slack "*#{repo}* Build finished in #{total_time}!", '#36a64f'
   rescue Exception => e
-    slack "[#{repo}] Build error: #{e}!", '#ff0000'
+    slack "*#{repo}* Build error: #{e}!", '#ff0000'
     error(e)
   ensure
     FileUtils.remove_entry(tmp) if Dir.exist?(tmp)
