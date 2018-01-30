@@ -93,7 +93,7 @@ class Builder
       if SLACK_HOOK
         payload = {
           username: "bobi",
-          icon_emoji: ":construction:",
+          icon_emoji: ":bobi:",
           attachments: [
             text: text,
             color: color,
