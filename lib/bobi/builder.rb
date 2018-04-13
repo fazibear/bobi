@@ -27,24 +27,26 @@ class Builder
     log "Config for #{repo}: #{config}".magenta
 
     config.each do |build|
-      log "Starting build #{build} ...".green
+      if build["path"]
+        log "Starting build #{build} ...".green
 
-      uuid = "build-#{SecureRandom.uuid}"
-      build_dir = "#{tmp}/#{build["path"]}"
+        uuid = "build-#{SecureRandom.uuid}"
+        build_dir = "#{tmp}/#{build["path"]}"
 
-      log "Building from #{build_dir} ...".green
+        log "Building from #{build_dir} ...".green
 
-      # Run.cmd("docker build -t #{uuid} --cache-from #{uuid} #{build_dir}")
-      Run.cmd("docker build -t #{uuid} #{build_dir}")
+        # Run.cmd("docker build -t #{uuid} --cache-from #{uuid} #{build_dir}")
+        Run.cmd("docker build -t #{uuid} #{build_dir}")
 
-      Array(build["push_to"]).each do |push_repo|
-        log "Pushing to #{push_repo} ...".green
-        Run.cmd("docker tag #{uuid} #{push_repo}")
-        Run.cmd("docker push #{push_repo}")
-        slack "*#{repo}* #{push_repo} pushed!", '#ffff00'
+        Array(build["push_to"]).each do |push_repo|
+          log "Pushing to #{push_repo} ...".green
+          Run.cmd("docker tag #{uuid} #{push_repo}")
+          Run.cmd("docker push #{push_repo}")
+          slack "*#{repo}* #{push_repo} pushed!", '#ffff00'
+        end
+
+        Run.cmd("docker rmi #{uuid}")
       end
-
-      Run.cmd("docker rmi #{uuid}")
 
       Array(build["trigger"]).each do |trigger|
         QUEUE.(trigger)
