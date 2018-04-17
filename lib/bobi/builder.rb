@@ -40,9 +40,9 @@ class Builder
 
         Array(build["push_to"]).each do |push_repo|
           log "Pushing to #{push_repo} ...".green
+          Run.cmd("docker rmi #{push_repo}; true")
           Run.cmd("docker tag #{uuid} #{push_repo}")
           Run.cmd("docker push #{push_repo}")
-          Run.cmd("docker rmi #{push_repo}; true")
           slack "*#{repo}* #{push_repo} pushed!", '#ffff00'
         end
 
