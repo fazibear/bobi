@@ -35,18 +35,19 @@ class Builder
 
         log "Building from #{build_dir} ...".green
 
-      #Run.cmd("docker build -t #{uuid} --cache-from #{uuid} #{build_dir}")
-      Run.cmd("docker build -t #{uuid} #{build_dir}")
+        #Run.cmd("docker build -t #{uuid} --cache-from #{uuid} #{build_dir}")
+        Run.cmd("docker build -t #{uuid} #{build_dir}")
 
-      Array(build["push_to"]).each do |push_repo|
-        log "Pushing to #{push_repo} ...".green
-        Run.cmd("docker tag #{uuid} #{push_repo}")
-        Run.cmd("docker push #{push_repo}")
-        Run.cmd("docker rmi #{push_repo}; true")
-        slack "*#{repo}* #{push_repo} pushed!", '#ffff00'
+        Array(build["push_to"]).each do |push_repo|
+          log "Pushing to #{push_repo} ...".green
+          Run.cmd("docker tag #{uuid} #{push_repo}")
+          Run.cmd("docker push #{push_repo}")
+          Run.cmd("docker rmi #{push_repo}; true")
+          slack "*#{repo}* #{push_repo} pushed!", '#ffff00'
+        end
+
+        Run.cmd("docker rmi #{uuid}; true")
       end
-
-      Run.cmd("docker rmi #{uuid}; true")
 
       Array(build["trigger"]).each do |trigger|
         QUEUE.(trigger)
