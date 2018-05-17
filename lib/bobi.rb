@@ -50,7 +50,9 @@ SLACK_QUEUE = proc do |text, color|
           color: color,
         ]
       }.to_json
-      Net::HTTP.post_form(URI.parse(SLACK_HOOK), {'payload' => payload})
+      LOGGER.info(
+        Net::HTTP.post_form(URI.parse(SLACK_HOOK), {'payload' => payload})
+      )
     end
   rescue => e
     LOGGER.error(e)
