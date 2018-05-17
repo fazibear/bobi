@@ -20,7 +20,7 @@ class WebHook < Roda
 
     repo = params["repository"]["full_name"]
     if r.params["ref"] == "refs/heads/master"
-      QUEUE.(repo)
+      BUILD_QUEUE.(repo)
     end
   end
 end
