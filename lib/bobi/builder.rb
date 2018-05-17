@@ -4,7 +4,6 @@ class Builder
   PREFIX = "bobi-"
   CONFIG_FILE = ".bobi.yml"
   WORK_DIR = ENV['BOBI_WORKING_DIR'] || "/tmp/bobi"
-  SLACK_HOOK = ENV['BOBI_SLACK_HOOK']
 
   def initialize()
     @dir = WORK_DIR
@@ -50,7 +49,7 @@ class Builder
       end
 
       Array(build["trigger"]).each do |trigger|
-        QUEUE.(trigger)
+        BUILD_QUEUE.(trigger)
       end
     rescue Exception => e
       slack "*#{repo}* Build error: #{e}!", '#ff0000'
@@ -92,18 +91,6 @@ class Builder
   end
 
   def slack(text, color = '#000000')
-    Thread.new do
-      if SLACK_HOOK
-        payload = {
-          username: "bobi",
-          icon_emoji: ":bobi:",
-          attachments: [
-            text: text,
-            color: color,
-          ]
-        }.to_json
-        Net::HTTP.post_form(URI.parse(SLACK_HOOK), {'payload' => payload})
-      end
-    end
+    SLACK_QUEUE.(text, color)
   end
 end
