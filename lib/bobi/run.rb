@@ -13,7 +13,7 @@ class Run
   end
 
   def self.exception(lines)
-    stack = ['Build error:'] + lines.last(5)
+    stack = ['Build error:'] + lines.last(10)
     raise Exception, stack.join("\n")
   end
 end
