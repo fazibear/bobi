@@ -52,7 +52,7 @@ class Builder
         BUILD_QUEUE.(trigger)
       end
     rescue Exception => e
-      slack "*#{repo}* #{e}!", '#ff0000'
+      slack "*#{repo}* #{e}", '#ff0000'
       error(e)
     end
 
@@ -61,7 +61,7 @@ class Builder
     log "Finished #{repo} in #{total_time}"
     slack "*#{repo}* Build finished in #{total_time}!", '#36a64f'
   rescue Exception => e
-    slack "*#{repo}* #{e}!", '#ff0000'
+    slack "*#{repo}* #{e}", '#ff0000'
     error(e)
   ensure
     FileUtils.remove_entry(tmp) if Dir.exist?(tmp)
